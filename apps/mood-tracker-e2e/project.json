@@ -1,0 +1,27 @@
+{
+  "sourceRoot": "apps/mood-tracker-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mood-tracker-e2e/cypress.json",
+        "devServerTarget": "mood-tracker:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "mood-tracker:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/mood-tracker-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mood-tracker"]
+}

@@ -1,0 +1,95 @@
+{
+  "projectType": "application",
+  "sourceRoot": "apps/mood-tracker/src",
+  "prefix": "mood-tracker",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mood-tracker",
+        "index": "apps/mood-tracker/src/index.html",
+        "main": "apps/mood-tracker/src/main.ts",
+        "polyfills": "apps/mood-tracker/src/polyfills.ts",
+        "tsConfig": "apps/mood-tracker/tsconfig.app.json",
+        "assets": [
+          "apps/mood-tracker/src/favicon.ico",
+          "apps/mood-tracker/src/assets"
+        ],
+        "styles": ["apps/mood-tracker/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/mood-tracker/src/environments/environment.ts",
+              "with": "apps/mood-tracker/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "mood-tracker:build:production"
+        },
+        "development": {
+          "browserTarget": "mood-tracker:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/mood-tracker/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "mood-tracker:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/mood-tracker/**/*.ts",
+          "apps/mood-tracker/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/mood-tracker"],
+      "options": {
+        "jestConfig": "apps/mood-tracker/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
