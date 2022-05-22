@@ -7,7 +7,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/mood-tracker",
+        "outputPath": "www",
         "index": "apps/mood-tracker/src/index.html",
         "main": "apps/mood-tracker/src/main.ts",
         "polyfills": "apps/mood-tracker/src/polyfills.ts",
