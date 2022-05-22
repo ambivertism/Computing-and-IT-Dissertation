@@ -20,6 +20,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "suppressImplicitAnyIndexErrors": true,
     "target": "ES5"
   },
   "angularCompilerOptions": {

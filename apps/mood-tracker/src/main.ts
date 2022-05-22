@@ -8,6 +8,17 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
+const bootstrap = () => {platformBrowserDynamic()
   .bootstrapModule(AppModule)
   .catch((err) => console.error(err));
+};
+
+if (typeof window['cordova'] !== 'undefined') {
+  document.addEventListener('deviceready', () => {
+    // wait for Cordova event
+    bootstrap();
+    console.log('Injected Cordova plugins!') 
+  }), false;
+} else {
+  bootstrap();
+}

@@ -4,6 +4,7 @@
 - package.json - Merged with cordova to satisfy dependencies
 - apps\mood-tracker\tsconfig.json - Set modules to compile as es5
 - apps\mood-tracker\src\index.html - Changed base URL
+- apps\mood-tracker\src\main.ts - Added a wait for cordova step
 
 # Misc
 - Learned about validation pipes
@@ -15,6 +16,7 @@
 - Set static IP to prevent changing between sessions
 - Learned about libs; methods that make data and functions available to all client applications.
 - Put my DTOs and schemas in libs so Angular can read them
+- apps\mood-tracker\tsconfig.json - set suppressImplicitAnyIndexErrors to true, to allow access to cordova through window object as cordova was an unknown property of window
 
 # API
 - apps\api\src\main.ts - Enabled CORS (allow communication between API and UI)
@@ -45,4 +47,5 @@
 - apps\mood-tracker\src\app\auth\sign-in\sign-in.component.ts - Made basic sign in component
 - apps\mood-tracker\src\app\auth\auth.service.ts - Made auth service to put requests in
 
-
+## Reminders
+- Added a proof-of-concept button to trigger reminder notification in 1min time (android)
