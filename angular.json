@@ -3,7 +3,6 @@
   "projects": {
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
-    "mood-tracker": "apps/mood-tracker",
-    "mood-tracker-e2e": "apps/mood-tracker-e2e"
+    "mood-tracker": "apps/mood-tracker"
   }
 }
