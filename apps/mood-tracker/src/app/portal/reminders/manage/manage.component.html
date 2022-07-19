@@ -1,0 +1,22 @@
+<form [formGroup]="reminderForm" (ngSubmit)="createReminder()">
+  <div>
+    <label for="reminderName">Title</label>
+    <input id="reminderName" type="text" formControlName="title" required>
+  </div>
+  <div>
+    <label for="reminderMessage">Message</label>
+    <input id="reminderMessage" type="text" formControlName="text">
+  </div>
+  <div>
+    <label for="reminderTime">Time</label>
+    <input id="reminderTime" type="time" formControlName="time" required>
+  </div>
+  <div *ngFor="let weekday of weekDayArray; let i = index;">
+    <input type="checkbox" formControlName="{{i}}" value="{{weekday}}">
+    <label for="{{weekday}}">{{weekday}}</label><br>
+  </div>
+  <button type="submit">Set Reminder</button><br>
+  <button type="reset">Reset</button>
+</form>
+<button (click)="showReminders()">Show Reminders</button><br>
+<button (click)="cancelReminder()">Cancel Reminder</button>

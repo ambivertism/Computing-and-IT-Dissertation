@@ -1,15 +1,15 @@
 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <div>
         <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name" required="string">
+        <input id="name" type="text" formControlName="name" required>
     </div>
     <div>
         <label for="email">Email</label>
-        <input id="email" type="text" formControlName="email">
+        <input id="email" type="text" formControlName="email" required>
     </div>
     <div>
         <label for="password">Pasword</label>
-        <input id="password" type="password" formControlName="password">
+        <input id="password" type="password" formControlName="password" required>
     </div>
     <div *ngIf="failureMessage">{{failureMessage}}</div>
     <button class="button" type="submit">Sign Up</button>

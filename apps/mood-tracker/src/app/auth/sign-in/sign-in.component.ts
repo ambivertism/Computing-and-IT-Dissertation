@@ -39,6 +39,7 @@ export class SignInComponent implements OnDestroy {
           this.successMessage = 'Login Successful';
           if (response && response.body) {
             window.localStorage.setItem('accessToken', response.body.accessToken);
+            this.route.navigate(['portal']);
           }
         },
         error: () =>

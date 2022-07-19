@@ -49,3 +49,25 @@
 
 ## Reminders
 - Added a proof-of-concept button to trigger reminder notification in 1min time (android)
+
+## Next steps
+- Create portal module
+- Create portal component & add router outlet
+- Create dashboard and reminders components
+- Define routes in portal module
+- Define routes in app module (loads children of portal)
+- Link all pages via routerLink
+- Create libs for reminders {title, text?, datetime, user}
+- Design form for creating a reminder
+- Create CRUD API endpoints for reminders
+- When creating a reminder, also create in database
+- Possibly create a method that fetches all reminders from database and make sure that each one has been created on the device
+
+
+
+
+
+
+
+- Something that implements canActivate() - fires request to check if user is authenticated; if no or invalid token, directs to auth page [route guard]
+- Create an icon for mood tracker where one O is an upside down smiley face and the other a frowney boi

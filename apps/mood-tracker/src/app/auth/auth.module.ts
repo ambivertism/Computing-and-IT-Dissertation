@@ -6,15 +6,23 @@ import { AuthComponent } from './auth.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'sign-in', component: SignInComponent },
-  { path: '', component: AuthComponent },
+  { path: '', component: AuthComponent, children: [
+    { path: '', component: LandingPageComponent },
+    { path: 'sign-up', component: SignUpComponent },
+    { path: 'sign-in', component: SignInComponent },
+  ]}
 ];
 
 @NgModule({
-  declarations: [AuthComponent, SignUpComponent, SignInComponent],
+  declarations: [
+    AuthComponent,
+    SignUpComponent,
+    SignInComponent,
+    LandingPageComponent,
+  ],
   imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes)],
   providers: [AuthService],
 })

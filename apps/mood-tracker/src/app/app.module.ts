@@ -3,17 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthModule } from './auth/auth.module';
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: 'auth', pathMatch: 'full'},
-  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }
+  { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: 'portal', loadChildren: () => import('./portal/portal.module').then(m => m.PortalModule) }
 ];
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, RouterModule.forRoot(appRoutes), HttpClientModule, AuthModule],
+  imports: [BrowserModule, RouterModule.forRoot(appRoutes), HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
