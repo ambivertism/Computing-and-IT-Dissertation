@@ -18,14 +18,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<User> {
+  async validate(payload: JwtPayload): Promise<UserDocument> {
     const { email } = payload;
-    const user: User = await this.userModel.findOne({ email });
-
+    const user: UserDocument = await this.userModel.findOne({ email });
     if (!user) {
         throw new UnauthorizedException();
     }
-
+    // change return user if wanting specific props (id, name etc)
     return user;
   }
 }

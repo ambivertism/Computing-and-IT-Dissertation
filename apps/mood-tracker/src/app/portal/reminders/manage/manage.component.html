@@ -1,4 +1,4 @@
-<form [formGroup]="reminderForm" (ngSubmit)="createReminder()">
+<form [formGroup]="reminderForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="reminderName">Title</label>
     <input id="reminderName" type="text" formControlName="title" required>
@@ -12,11 +12,13 @@
     <input id="reminderTime" type="time" formControlName="time" required>
   </div>
   <div *ngFor="let weekday of weekDayArray; let i = index;">
-    <input type="checkbox" formControlName="{{i}}" value="{{weekday}}">
+    <input type="checkbox" (change)="boxChecked()" formControlName="{{i}}" value="{{weekday}}">
     <label for="{{weekday}}">{{weekday}}</label><br>
   </div>
+  <div *ngIf="failureMessage" style="color:red;">{{failureMessage}}</div>
   <button type="submit">Set Reminder</button><br>
   <button type="reset">Reset</button>
 </form>
 <button (click)="showReminders()">Show Reminders</button><br>
 <button (click)="cancelReminder()">Cancel Reminder</button>
+<a routerLink="/portal/reminders">Back</a>

@@ -1,2 +1,22 @@
-<p>dashboard works!</p>
-<a routerLink="reminders">Reminders</a>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <p>hello!</p>
+  <div>
+    <a routerLink="reminders">Reminders</a>
+  </div>
+  <div>
+    <mood-tracker-moods></mood-tracker-moods><br>
+    <a routerLink="moods">History</a>
+  </div>
+  <div>
+    <mood-tracker-notes></mood-tracker-notes><br>
+    <a routerLink="notes">History</a><br>
+  </div>
+  <a routerLink="" (click)="signOut()">Sign Out</a>
+</body>

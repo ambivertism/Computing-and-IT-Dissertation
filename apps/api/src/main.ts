@@ -7,7 +7,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe()); // validate all endpoints against dto
   app.enableCors(); // required to prevent cors errors
   await app.listen(3000);
-
 }
 
 bootstrap();

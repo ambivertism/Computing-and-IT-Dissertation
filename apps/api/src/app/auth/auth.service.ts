@@ -1,22 +1,18 @@
 import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from './jwt-payload.interface';
-import {
-  User,
-  UserDocument,
   CreateUserDto,
   SignInDto,
   SignInResponseDto,
+  User,
+  UserDocument,
   UserResponseDto,
 } from '@mood-tracker/api-interfaces';
+import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
+import { Model } from 'mongoose';
+
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {

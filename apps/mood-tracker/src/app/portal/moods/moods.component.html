@@ -1,0 +1,13 @@
+<form [formGroup]="moodForm" (ngSubmit)="onSubmit()">
+  <label for="mood">How are you today? </label><br>
+  <div *ngFor="let mood of moods" class="mood-container">
+    <label>
+      <input type="radio" (change)="radioChange(mood)" value="{{mood}}" formControlName="mood" id="mood">
+      <img id="mood-icon" src="assets/{{mood}}_{{moodSelected === mood ? 'color' : 'black'}}.png">
+    </label>
+  </div>
+  <div>
+    <div *ngIf="failureMessage" style="color:red;">{{failureMessage}}</div>
+    <button type="submit">{{isUpdate ? 'Update' : 'Save'}}</button>
+  </div>
+</form>

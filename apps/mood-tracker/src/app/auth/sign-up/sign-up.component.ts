@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -37,7 +38,7 @@ export class SignUpComponent implements OnDestroy {
         next: (response) => {
           console.log(response);
           if (response.status === 201) {
-            this.route.navigate(['/auth/sign-in']);
+            this.route.navigate(['sign-in']);
           }
         },
         error: () =>

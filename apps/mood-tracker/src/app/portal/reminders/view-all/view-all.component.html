@@ -1,2 +1,12 @@
-<p>view-all works!</p>
-<a *ngIf="!reminders" routerLink="create">Create Reminder?</a>
+<ul>
+  <li *ngFor="let reminder of reminders">
+    {{reminder.title}}<br>
+    {{reminder.text}}<br>
+    {{reminder.time}}<br>
+    {{getDayOfWeek(reminder.days)}}<br>
+    <a routerLink="update/{{reminder._id}}">Edit</a><br>
+    <a (click)="deleteReminder(reminder)">Delete</a>
+  </li>
+</ul>
+<a routerLink="create">Create Reminder?</a><br>
+<a routerLink="/portal">Back</a>

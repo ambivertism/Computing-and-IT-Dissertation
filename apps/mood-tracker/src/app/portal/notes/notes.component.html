@@ -1,0 +1,9 @@
+<form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="note">Insert note/ symptom here: </label><br>
+    <textarea id="note" formControlName="note" autocomplete="off" rows="4" style="resize: none;">
+    </textarea>
+    <div *ngIf="failureMessage" style="color:red;">{{failureMessage}}</div>
+  </div>
+  <button type="submit">{{isUpdate ? 'Update' : 'Save'}}</button>
+</form>

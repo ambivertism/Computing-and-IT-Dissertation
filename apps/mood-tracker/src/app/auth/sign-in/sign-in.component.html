@@ -1,14 +1,23 @@
-<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="email">Email</label>
-        <input id="email" type="text" formControlName="email">
-    </div>
-    <div>
-        <label for="password">Pasword</label>
-        <input id="password" type="password" formControlName="password">
-    </div>
-    <div *ngIf="failureMessage">{{failureMessage}}</div>
-    <button class="button" type="submit">Sign In</button>
-</form>
-<button class="button" (click)="fireTestRequest()">fireTestRequest?</button>
-<div *ngIf="successMessage">{{successMessage}}!</div>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="email">Email</label>
+            <input id="email" type="text" formControlName="email" autocapitalize="none" autocomplete="off">
+        </div>
+        <div>
+            <label for="password">Pasword</label>
+            <input id="password" type="password" formControlName="password">
+        </div>
+        <div *ngIf="failureMessage">{{failureMessage}}</div>
+        <button class="button" type="submit">Sign In</button>
+    </form>
+    <!-- <button class="button" (click)="fireTestRequest()">fireTestRequest?</button> -->
+    <div *ngIf="successMessage">{{successMessage}}!</div>
+</body>

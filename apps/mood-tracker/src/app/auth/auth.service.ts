@@ -1,12 +1,8 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  CreateUserDto,
-  SignInDto,
-  SignInResponseDto,
-  UserResponseDto,
-} from '@mood-tracker/api-interfaces';
+import { CreateUserDto, SignInDto, SignInResponseDto, UserResponseDto } from '@mood-tracker/api-interfaces';
 import { Observable } from 'rxjs';
+
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -25,9 +21,7 @@ export class AuthService {
     return this.http.post<SignInResponseDto>(
       environment.apiUrl + '/auth/signin',
       userBody,
-      {
-        observe: 'response',
-      }
+      {observe: 'response'}
     );
   }
 

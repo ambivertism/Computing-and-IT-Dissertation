@@ -1,7 +1,12 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ILocalNotification, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { CreateReminderDto, Reminder, UpdateReminderDto } from '@mood-tracker/api-interfaces';
+import { Observable, Subscription } from 'rxjs';
+import { PortalService } from '../../portal.service';
+import { RemindersService } from '../reminders.service';
 
 @Component({
   selector: 'mood-tracker-manage',
@@ -9,7 +14,14 @@ import { ILocalNotification, LocalNotifications } from '@awesome-cordova-plugins
   styleUrls: ['./manage.component.css'],
 })
 export class ManageComponent implements OnInit {
+  subscriptions = new Subscription();
+
+  id: string | undefined;
+
+  failureMessage: string | undefined;
+
   isUpdate = false;
+  reminderToUpdate: Reminder | undefined;
 
   reminderForm = this.formBuilder.group({
     title: '',
@@ -35,126 +47,123 @@ export class ManageComponent implements OnInit {
   ]
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private localNotifications: LocalNotifications
+    private localNotifications: LocalNotifications,
+    private reminderService: RemindersService,
+    private portalService: PortalService
   ) {}
 
   ngOnInit(): void {
     this.isUpdate = this.router.url.includes('update');
+    if(this.isUpdate) {
+      this.id = this.route.snapshot.paramMap.get('id') as string;
+      this.getReminderById(this.id);
+    }
   }
 
-  createReminder() {
-    // Get form data
-    const formContent = this.reminderForm.value;
-    console.log(formContent);
-  
-    const title = formContent.title;
-    const text = formContent.text;
+  getReminderById(id: string) {
+    this.subscriptions.add(
+      this.reminderService.getReminderById(id).subscribe({
+        next: (response) => {
+          if (response.status === 200) {
+            console.log('Response: ', response);
+            this.reminderToUpdate = response.body as Reminder;
+            this.populateUpdateForm(this.reminderToUpdate);
+          }
+        },
+        error: () => (this.failureMessage = 'An error ocurred, sorry.'),
+      })
+    );
+  }
 
-    // Convert time inputs to numbers
-    const time = formContent.time;
-    const triggerTime = time.split(':');
-    const hours = parseInt(triggerTime[0]);
-    const minutes = parseInt(triggerTime[1]);
-
-    const scheduleArray: ILocalNotification[] = [];
-    // > add < \\
-    // num input for number of days to schedule alarms
-    // assign to conditional below.
-
-    // Schedule using 'at'
-    for (let i = 0; i < 10; ++i) {
-      const desiredTime = new Date();
-
-      desiredTime.setHours(hours);
-      desiredTime.setMinutes(minutes);
-      desiredTime.setSeconds(0);
-      desiredTime.setDate(desiredTime.getDate() + i);
-
-      if (!formContent[desiredTime.getDay()]) {
-        continue;
-      }
-      
-      const scheduleObject: ILocalNotification = {
-        id: Math.floor(Math.random() * Date.now()) + i,
-        title,
-        text: text + ' (At)',
-        foreground: true,
-        trigger: {
-          at: desiredTime,
-        }
-      };
-      scheduleArray.push(scheduleObject);
-    }
-
-    // Schedule using 'every'
-    // for (let i = 0; i < 7; ++i) {
-    //   if (!formContent[i]) {
-    //     continue;
-    //   }
-    //   const weekday = i === 0 ? 7 : i;
-    //   const scheduleViaEvery = {
-    //     id: Math.floor(Math.random() * Date.now()) + 1,
-    //     title,
-    //     text: text + ' (Every)',
-    //     foreground: true,
-    //     trigger: {
-    //       every: {
-    //         weekday,
-    //         hour: hours,
-    //         minute: minutes,
-    //         second: 0
-    //       }
-    //     },
-    //   } as ILocalNotification;
-  
-    //   scheduleArray.push(scheduleViaEvery);
-    // }
-
-    this.localNotifications.schedule(scheduleArray);
+  populateUpdateForm(reminder: Reminder) {
+    this.reminderForm.controls['title'].setValue(reminder.title);
+    this.reminderForm.controls['text'].setValue(reminder.text);
+    this.reminderForm.controls['time'].setValue(reminder.time);
+    reminder.days.forEach(day => this.reminderForm.controls[day].setValue(true));
   }
 
   showReminders() {
-    this.localNotifications.getAll().then((notifications) => {
-      alert(JSON.stringify(notifications));
-      alert(notifications.length);
+    this.localNotifications.getAll().then((notifications: any[]) => {
+      const formatNotif: any[] = [];
+      for (const notification of notifications) {
+        const returnObject = {
+          title: notification.title,
+          text: notification.text,
+          time: new Date(notification.trigger.at)
+        }
+        formatNotif.push(returnObject);
+      }
+      alert(JSON.stringify(formatNotif, null, 2));
+      alert(notifications.length + ": notifications set.");
     });
   }
 
   cancelReminder() {
     this.localNotifications.cancelAll();
+    alert('Notifications cancelled');
   }
 
-  // onSubmit(): void {
-  //   const formcontent = this.reminderForm.value;
-  //   console.log(formcontent);
-  //   this.createReminder(formcontent.title, formcontent.text, formcontent.time);
-  // }
+  boxChecked(): boolean {
+    // check if any days are selected & remove error message if so.
+    console.log('box checked called')
+    const formContent = Object.keys(this.reminderForm.value).map(day => this.reminderForm.value[day]);
+    console.log(formContent)
+    if (formContent.some(day => day === true)) {
+      this.failureMessage = undefined;
+      return true;
+    } else {
+      this.failureMessage = 'Please select a day to set reminder.'
+      return false;
+    }
+  }
 
-  // createReminder(title: string, text: string, time: string) {
-  //   try {
-  //     const triggerTime = time.split(':');
-  //     // This was a test to prove the plugin worked
-  //     window['cordova'].plugins.notification.local.schedule({
-  //       title: 'First notification!',
-  //       text: 'kinda easy...',
-  //       foreground: true,
-  //       trigger: { in: 1, unit: 'minute' },
-  //     });
+  onSubmit(): void {
+    // Get form data
+    const formContent = this.reminderForm.value;
+    console.log('formContent', formContent);
+    
+    const title = formContent.title;
+    const text = formContent.text;
+    const time = formContent.time;
 
-  //     // This was how the plugin claimed to work but has not been maintained in a long time
-  //     window['cordova'].plugins.notification.local.schedule({
-  //       id:5,
-  //       title,
-  //       text,
-  //       foreground: true,
-  //       smallIcon: 'res://ic_popup_reminder',
-  //       trigger: { every: { hour: parseInt(triggerTime[0]), minute: parseInt(triggerTime[1]), second: 0 } },
-  //     })
-  //   } catch (e) {
-  //     alert('error');
-  //     console.log(e);
-  //   }
-  // }
+    if ([title, text, time].some(v => v === '')) {
+      alert('Please enter all fields.')
+      return;
+    }
+
+    if (!this.boxChecked()) {
+      return;
+    }
+    
+    const keys = Object.keys(this.reminderForm.value);
+    const days = keys.filter(key => this.reminderForm.value[key] === true).map(key => Number(key));
+    
+    const remindersToCancel = this.isUpdate ? this.reminderToUpdate?.ids : [];
+    const ids = this.portalService.createReminder(title, text, time, days, remindersToCancel);
+    const reminderDto = { title, text, time, ids, days };
+    console.log('reminderDto', reminderDto)
+
+    this.subscriptions.add(
+      this.getRequest(reminderDto).subscribe({
+        next: (response) => {
+          if (response.status === 201 || response.status === 200) {
+            console.log('Response: ', response);
+            this.router.navigate(['portal', 'reminders']);
+          }
+        },
+        error: () => (this.failureMessage = 'An error ocurred, sorry.')
+      })
+    );
+  }
+
+  getRequest(reminderDto: CreateReminderDto | UpdateReminderDto):  Observable<HttpResponse<Reminder>> {
+    if (this.isUpdate) {
+      return this.reminderService.updateReminder(reminderDto, this.id as string)
+    } else {
+      return this.reminderService.createReminder(reminderDto)
+    }
+  }
 }

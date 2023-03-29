@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let note of notes">
+    {{note.date | date}}<br>
+    {{note.note}}<br>
+  </li>
+</ul>
+<a routerLink="/portal">Back</a>

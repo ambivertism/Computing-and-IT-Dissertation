@@ -48,14 +48,14 @@ export class SignInComponent implements OnDestroy {
     );
   }
 
-  fireTestRequest() {
-    this.subscriptions.add(
-      this.service.fireTestRequest().subscribe({
-        next: () => {
-            this.successMessage = 'Authorisation complete!'
-          },
-        error: (response) => (this.failureMessage = JSON.stringify(response.status) + ' - Unauthorised, please try again.'),
-      })
-    );
-  }
+  // fireTestRequest() {
+  //   this.subscriptions.add(
+  //     this.service.fireTestRequest().subscribe({
+  //       next: () => {
+  //           this.successMessage = 'Authorisation complete!'
+  //         },
+  //       error: (response) => (this.failureMessage = JSON.stringify(response.status) + ' - Unauthorised, please try again.'),
+  //     })
+  //   );
+  // }
 }
